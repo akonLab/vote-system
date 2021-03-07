@@ -2,6 +2,7 @@
 package com.blum.votesystem.models;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -14,12 +15,19 @@ public class UserEntity {
     private String user_group;
     private Integer user_age;
     private String user_interest;
-
+    private boolean enabled;
     private String email;
     private String password;
 
-    private String role;
-    private String authorities;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
     public UserEntity() {
     }
@@ -31,8 +39,7 @@ public class UserEntity {
         this.user_interest = user_interest;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.authorities = authorities;
+
     }
     public UserEntity(Integer user_id, String user_name, String user_group, Integer user_age, String user_interest, String email, String password, String role, String authorities) {
         this.user_id = user_id;
@@ -42,8 +49,23 @@ public class UserEntity {
         this.user_interest = user_interest;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.authorities = authorities;
+
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 
     //setter
@@ -76,13 +98,7 @@ public class UserEntity {
         this.user_interest = user_interest;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
-    }
 
     //getter
 
@@ -114,11 +130,5 @@ public class UserEntity {
         return user_interest;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public String getAuthorities() {
-        return authorities;
-    }
 }
