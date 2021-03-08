@@ -2,6 +2,7 @@ package com.blum.votesystem.service;
 
 import com.blum.votesystem.models.Privilege;
 import com.blum.votesystem.models.Role;
+import com.blum.votesystem.models.UserEntity;
 import com.blum.votesystem.repo.PrivilegeRepo;
 import com.blum.votesystem.repo.RoleRepo;
 import com.blum.votesystem.repo.UserRepo;
@@ -50,15 +51,14 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
-        //Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        //User user = new User();
-        //user.setFirstname("Test");
-        //user.setLastname("Test");
-        //user.setPassword(passwordEncoder.encode("test"));
-        //user.setEmail("test@test.com");
-        //user.setRoles(Arrays.asList(adminRole));
-        //user.setEnabled(true);
-        //userRepository.save(user);
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        UserEntity user = new UserEntity();
+        user.setUser_name("Test");
+        user.setPassword(passwordEncoder.encode("test"));
+        user.setEmail("test@test.com");
+        user.setRoles(Arrays.asList(adminRole));
+        user.setEnabled(true);
+        userRepository.save(user);
 
 
 
