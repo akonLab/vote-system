@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-
 <head>
     <title>Title</title>
     <!-- Required meta tags -->
@@ -8,50 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- css -->
-    <link rel="stylesheet" href="style/profile.css">
+    <link rel="stylesheet" href="style/log.css">
     <link rel="stylesheet" href="style/index.css">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-
 <body>
-<div class="header p-3 d-flex justify-content-around">
-    <a href="/profile">profile</a>
-    <a href="/home">home</a>
-    <a href="/admin">admin</a>
-    <a href="/logout">log out</a>
-</div>
 
-<div class="box">
-    <h3 class="text-center">Profile page</h3>
-    <div class="data">
-        <div>
-            <p th:text="${user.getUser_name()}"></p>
-            <p th:text="${'Group: '+user.getUser_group()}"></p>
-            <p th:text="${'Age: '+user.getUser_age()}"></p>
-            <a href="/profileEdit">change profile</a>
-        </div>
-        <div th:if="${interests!=null}">
-            <p>interests:</p>
-            <ul th:each="interest : ${interests}">
-                <li th:text="${interest}">hobby</li>
-            </ul>
-        </div>
+<form th:action="@{/user/edit}" method="post">
+    <h3 class="text-center text-white">Profile Edit</h3>
+    <input type="text" name="fname" placeholder="full name" th:value="${user.getUser_name()}">
+    <input type="number" name="age" placeholder="age" th:value="${user.getUser_age()}">
+
+    <input type="text" name="age" placeholder="group" th:value="${user.getUser_group()}">
+    <input type="text" name="interest" placeholder="interest" th:value="${user.getUser_interest()}">
+    <input type="text" name="email" placeholder="email" th:value="${user.getEmail()}">
+    <input type="text" name="password" placeholder="create new password or left it empty to save prev">
+
+    <div hidden>
+        <input type="text" name="id" th:value="${user.getUser_id()}">
+        <input type="text" name="enabled" th:value="${user.isEnabled()}">
+        <input type="text" name="prev_password" th:value="${user.getPassword()}">
     </div>
+    <input type="submit">
+</form>
 
-    <table>
-        <tr>
-            <th>question title</th>
-            <th>question chois</th>
-        </tr>
-        <tr>
-            <td>question title</td>
-            <td>question chois</td>
-        </tr>
-
-    </table>
-</div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -64,5 +46,4 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

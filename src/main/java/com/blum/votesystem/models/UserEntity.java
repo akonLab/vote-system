@@ -32,7 +32,16 @@ public class UserEntity {
     public UserEntity() {
     }
 
-
+    public UserEntity(Integer user_id, String user_name, String user_group, Integer user_age, String user_interest, boolean enabled, String email, String password) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_group = user_group;
+        this.user_age = user_age;
+        this.user_interest = user_interest;
+        this.enabled = enabled;
+        this.email = email;
+        this.password = password;
+    }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;

@@ -2,6 +2,7 @@ package com.blum.votesystem.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,23 +53,31 @@ public class QuestionControllers {
         return "home";
     }
 
-    public void tapAns1(HttpServletRequest request) {
-        Integer questionId = Integer.parseInt(request.getParameter("id"));
-        int userId = Integer.parseInt(request.getParameter("user_id"));
-
-        QuestionEntity question = questionRepo.findById(questionId).get();
-        question.setAns1_count(question.getAns1_count() + userId);
-        questionRepo.save(question);
-    }
-
-    public void tapAns2(HttpServletRequest request) {
-        Integer questionId = Integer.parseInt(request.getParameter("id"));
-        int userId = Integer.parseInt(request.getParameter("user_id"));
-
-        QuestionEntity question = questionRepo.findById(questionId).get();
-        question.setAns1_count(question.getAns2_count() + userId);
-        questionRepo.save(question);
-    }
+//    @GetMapping("tapAns2")
+//    public String tapAns1(HttpServletRequest request) {
+//        Integer questionId = Integer.parseInt(request.getParameter("id"));
+//        int userId = Integer.parseInt(request.getParameter("user_id"));
+//
+//        QuestionEntity question = questionRepo.findById(questionId).get();
+//        question.setAns1_count(question.getAns1_count() + userId);
+//        question.setCount((question.getCount()==null)?1:question.getCount()+1);
+//        questionRepo.save(question);
+//
+//        return "home";
+//    }
+//
+//    @GetMapping("tapAns2")
+//    public String tapAns2(HttpServletRequest request) {
+//        Integer questionId = Integer.parseInt(request.getParameter("id"));
+//        int userId = Integer.parseInt(request.getParameter("user_id"));
+//
+//        QuestionEntity question = questionRepo.findById(questionId).get();
+//        question.setAns1_count(question.getAns2_count() + userId);
+//        question.setCount((question.getCount()==null)?1:question.getCount()+1);
+//        questionRepo.save(question);
+//
+//        return "home";
+//    }
 
     @PostMapping("remove")
     public String remove(HttpServletRequest request) {

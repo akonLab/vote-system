@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -25,12 +28,14 @@ public class GeneralController {
     @Autowired
     QuestionRepo questionRepo;
 
-    public UserEntity getUserByEmail(String email) {
-        return userRepo.findByEmail(email);
-    }
-
     @RequestMapping("/home")
     public String home(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        UserEntity user = userRepo.findByEmail(email);
+
+        model.addAttribute("userid", user.getUser_id());
         model.addAttribute("questions", questionRepo.findAll());
 
         return "home";
@@ -46,8 +51,31 @@ public class GeneralController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        model.addAttribute("user", userRepo.findByEmail(email));
+        UserEntity user = userRepo.findByEmail(email);
+
+        if(user.getUser_interest()!=null){
+            model.addAttribute("interests", getInterestList(user.getUser_interest()));
+        }
+
+        model.addAttribute("user", user);
+
         return "profile";
+    }
+
+    private List<String> getInterestList(String interests) {
+        List<String> interestList = new ArrayList<>();
+        Collections.addAll(interestList, interests.split(" "));
+        return interestList;
+    }
+
+    @RequestMapping("/profileEdit")
+    public String profileEdit(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        model.addAttribute("user", userRepo.findByEmail(email));
+
+        return "profileEdit";
     }
 
     @RequestMapping("/log")
