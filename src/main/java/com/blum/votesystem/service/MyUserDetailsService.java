@@ -6,8 +6,10 @@ import com.blum.votesystem.models.UserEntity;
 import com.blum.votesystem.repo.RoleRepo;
 import com.blum.votesystem.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,12 +24,12 @@ import java.util.List;
 @Service("userDetailsService")
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
-
     @Autowired
     private UserRepo userRepository;
 
     @Autowired
     private RoleRepo roleRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String email)
@@ -36,7 +38,12 @@ public class MyUserDetailsService implements UserDetailsService {
         UserEntity user = userRepository.findByEmail(email);
         if (user == null) {
             return new org.springframework.security.core.userdetails.User(
-                    " ", " ", true, true, true, true,
+                    " ",
+                    " ",
+                    true,
+                    true,
+                    true,
+                    true,
                     getAuthorities(Arrays.asList(
                             roleRepository.findByName("ROLE_USER"))));
         }

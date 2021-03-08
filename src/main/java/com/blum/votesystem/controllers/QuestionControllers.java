@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/question")
 public class QuestionControllers {
     @Autowired
-     QuestionRepo questionRepo;
+    QuestionRepo questionRepo;
 
     @ModelAttribute("allQuestion")
     public Iterable<QuestionEntity> showAll() {
@@ -50,6 +50,24 @@ public class QuestionControllers {
         questionRepo.save(question);
 
         return "home";
+    }
+
+    public void tapAns1(HttpServletRequest request) {
+        Integer questionId = Integer.parseInt(request.getParameter("id"));
+        int userId = Integer.parseInt(request.getParameter("user_id"));
+
+        QuestionEntity question = questionRepo.findById(questionId).get();
+        question.setAns1_count(question.getAns1_count() + userId);
+        questionRepo.save(question);
+    }
+
+    public void tapAns2(HttpServletRequest request) {
+        Integer questionId = Integer.parseInt(request.getParameter("id"));
+        int userId = Integer.parseInt(request.getParameter("user_id"));
+
+        QuestionEntity question = questionRepo.findById(questionId).get();
+        question.setAns1_count(question.getAns2_count() + userId);
+        questionRepo.save(question);
     }
 
     @PostMapping("remove")
