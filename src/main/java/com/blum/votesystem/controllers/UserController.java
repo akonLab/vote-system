@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,7 +21,7 @@ public class UserController {
 
 
     @PostMapping("edit")
-    public String edit(HttpServletRequest request) {
+    public RedirectView edit(HttpServletRequest request) {
 
         UserEntity user = new UserEntity(
                 Integer.parseInt(request.getParameter("id")),
@@ -35,6 +36,6 @@ public class UserController {
         );
         userRepo.save(user);
 
-        return "profile";
+        return new RedirectView("/profile");
     }
 }

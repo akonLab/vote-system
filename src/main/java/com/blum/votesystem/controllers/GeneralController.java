@@ -1,9 +1,11 @@
 package com.blum.votesystem.controllers;
 
+import com.blum.votesystem.models.QuestionEntity;
 import com.blum.votesystem.models.UserEntity;
 import com.blum.votesystem.repo.QuestionRepo;
 import com.blum.votesystem.repo.UserRepo;
 import com.blum.votesystem.service.MyUserDetailsService;
+import com.blum.votesystem.service.QuestionServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +30,8 @@ public class GeneralController {
     @Autowired
     QuestionRepo questionRepo;
 
+    QuestionServer questionServer=new QuestionServer();
+
     @RequestMapping("/home")
     public String home(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,6 +40,7 @@ public class GeneralController {
         UserEntity user = userRepo.findByEmail(email);
 
         model.addAttribute("userid", user.getUser_id());
+        model.addAttribute("questionServer", questionServer);
         model.addAttribute("questions", questionRepo.findAll());
 
         return "home";
@@ -53,7 +58,7 @@ public class GeneralController {
 
         UserEntity user = userRepo.findByEmail(email);
 
-        if(user.getUser_interest()!=null){
+        if (user.getUser_interest() != null) {
             model.addAttribute("interests", getInterestList(user.getUser_interest()));
         }
 
@@ -76,6 +81,14 @@ public class GeneralController {
         model.addAttribute("user", userRepo.findByEmail(email));
 
         return "profileEdit";
+    }
+
+    @RequestMapping("/questionEdit")
+    public String questionEdit(HttpServletRequest request, Model model) {
+        QuestionEntity question = questionRepo.findById(Integer.parseInt(request.getParameter("id"))).get();
+        model.addAttribute("question", question);
+
+        return "questionEdit";
     }
 
     @RequestMapping("/log")
