@@ -21,7 +21,9 @@
     <a href="/profile">profile</a>
     <a href="/home">home</a>
     <a href="/admin">admin</a>
-    <a href="/logout">log out</a>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </div>
 
 <h3 class="text-center mt-3">Admin page</h3>
