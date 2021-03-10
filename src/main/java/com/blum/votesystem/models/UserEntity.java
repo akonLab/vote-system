@@ -18,6 +18,7 @@ public class UserEntity {
     private boolean enabled;
     private String email;
     private String password;
+  //  private Integer role;
 
     @ManyToMany
     @JoinTable(
@@ -32,6 +33,18 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(String user_name, String user_group, Integer user_age, String user_interest, String email, String password) {
+
+        this.user_name = user_name;
+        this.user_group = user_group;
+        this.user_age = user_age;
+        this.user_interest = user_interest;
+        this.enabled = true;
+        this.email = email;
+        this.password = password;
+       // this.role = 4;
+    }
+
     public UserEntity(Integer user_id, String user_name, String user_group, Integer user_age, String user_interest, boolean enabled, String email, String password) {
         this.user_id = user_id;
         this.user_name = user_name;
@@ -41,7 +54,12 @@ public class UserEntity {
         this.enabled = enabled;
         this.email = email;
         this.password = password;
+      //  this.role = role;
     }
+
+//   public Integer getRole() {
+//        return role;
+//    }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -88,7 +106,6 @@ public class UserEntity {
     public void setUser_interest(String user_interest) {
         this.user_interest = user_interest;
     }
-
 
 
     //getter

@@ -26,7 +26,7 @@ public class QuestionControllers {
     }
 
     @PostMapping("add")
-    public String add(HttpServletRequest request) {
+    public RedirectView add(HttpServletRequest request) {
         QuestionEntity question = new QuestionEntity(
                 request.getParameter("question"),
                 request.getParameter("ans1"),
@@ -37,7 +37,7 @@ public class QuestionControllers {
         );
         questionRepo.save(question);
 
-        return "home";
+        return new RedirectView("/home");
     }
 
     @PostMapping("edit")

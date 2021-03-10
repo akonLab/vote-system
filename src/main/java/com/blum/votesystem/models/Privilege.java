@@ -1,7 +1,5 @@
 package com.blum.votesystem.models;
 
-import com.blum.votesystem.models.Role;
-
 import javax.persistence.*;
 import java.util.Collection;
 

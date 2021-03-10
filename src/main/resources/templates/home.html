@@ -18,30 +18,38 @@
 <div class="header p-3 d-flex justify-content-around">
     <a href="/profile">profile</a>
     <a href="/home">home</a>
-    <a href="/admin">admin</a>
-<!--    <a href="/logout">log out</a>-->
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
+
+    <!--    <a href="/logout">log out</a>-->
+    <form th:action="@{/logout}"  method="post">
+        <input type="submit" class="btn btn-outline-light" value="Sign Out"/>
     </form>
 </div>
 
+<div th:each="question : ${questions}">
+    <div class="question">
+        <strong class="text-center mb-3" th:text="${question.getQuestion()}"></strong>
 
-<div th:each="question : ${questions}" class="question">
-    <strong class="text-center mb-3" th:text="${question.getQuestion()}"></strong>
-    <div>
-        <a th:href="@{/question/tapAns1(id=${question.getId()},user_id=${userid})}"
-           th:text="${question.getAns1()+' [count: '+questionServer.getCount(question.ans1_count)+']'}"></a>
-        <a th:href="@{/question/tapAns2(id=${question.getId()},user_id=${userid})}"
-           th:text="${question.getAns2()+' [count: '+questionServer.getCount(question.ans2_count)+']'}"></a>
-        <br>
-        <p class="text-center" th:text="${'General vote count: '+question.getCount()}"></p>
+        <div>
+            <a th:href="@{/question/tapAns1(id=${question.getId()},user_id=${userid})}"
+               th:text="${question.getAns1()}"></a>
+            <a th:href="@{/question/tapAns2(id=${question.getId()},user_id=${userid})}"
+               th:text="${question.getAns2()}"></a>
+            <br>
+
+        </div>
+        <div>
+            <p class="text-center" th:text="${'General vote count: '+question.getCount()}"></p>
+        </div>
+        <div class="mt-2" th:if="${authority==true}">
+            <a class="btn btn-outline-light" th:href="@{/question/remove(id=${question.id})}">remove</a>
+            <a class="btn btn-outline-light" th:href="@{/questionEdit(id=${question.id})}">update</a>
+        </div>
     </div>
-    <div class="mt-2">
-        <a class="btn btn-outline-success" th:href="@{/question/remove(id=${question.id})}">remove</a>
-        <a class="btn btn-outline-warning" th:href="@{/questionEdit(id=${question.id})}">update</a>
+    <div class="stat">
+        <p th:text="${question.getAns1()+' - choosed '+questionServer.getCount(question.ans1_count,question.count)+'%'}">Ans1 count</p>
+        <p th:text="${question.getAns2()+' - choosed '+questionServer.getCount(question.ans2_count,question.count)+'%'}">Ans2 count</p>
     </div>
 </div>
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

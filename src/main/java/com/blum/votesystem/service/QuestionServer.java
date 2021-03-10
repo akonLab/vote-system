@@ -19,9 +19,10 @@ public class QuestionServer {
         return listOfUserId;
     }
 
-    public Integer getCount(String ans_count) {
+    public Integer getCount(String ans_count,Integer general) {
         if (ans_count.trim().equals(" ")||ans_count.trim().equals("")) return 0;
-        return ans_count.trim().split(" ").length;
+        int count =ans_count.trim().split(" ").length;
+        return count*100/general;
     }
 
     public Double getProcent(String part, Integer general) {

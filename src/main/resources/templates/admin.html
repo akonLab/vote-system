@@ -17,29 +17,15 @@
 </head>
 
 <body>
-<div class="header p-3 d-flex justify-content-around">
-    <a href="/profile">profile</a>
-    <a href="/home">home</a>
-    <a href="/admin">admin</a>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-</div>
-
-<h3 class="text-center mt-3">Admin page</h3>
 
 <form th:action="@{/question/add}"  method="post" id="form">
-    <textarea name="question" placeholder="question" id="" rows="3" value=""></textarea>
-    <input type="text" placeholder="answer 1" name="ans1" value="">
-    <input type="text" placeholder="answer 2" name="ans2" value="">
+    <h3 class="text-center text-white mt-3">Add question</h3>
 
-    <div hidden>
-        <input type="text" name="id" value="">
-        <input type="text" name="ans1_count" value="">
-        <input type="text" name="ans2_count" value="">
-        <input type="text" name="count" value="">
-    </div>
-    <input type="submit">
+    <textarea name="question" placeholder="question" id="" rows="3"></textarea>
+    <input type="text" placeholder="answer 1" name="ans1">
+    <input type="text" placeholder="answer 2" name="ans2">
+
+    <input type="submit" value="create">
 </form>
 
 <!-- Optional JavaScript -->

@@ -19,6 +19,22 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @PostMapping("add")
+    public RedirectView add(HttpServletRequest request) {
+        System.out.println("Almza");
+        UserEntity user = new UserEntity(
+                request.getParameter("fname"),
+                request.getParameter("group"),
+                Integer.parseInt(request.getParameter("age")),
+                request.getParameter("interest"),
+                request.getParameter("email"),
+                passwordEncoder.encode(request.getParameter("password"))
+        );
+        userRepo.save(user);
+        System.out.println("Almza gay");
+
+        return new RedirectView("/home");
+    }
 
     @PostMapping("edit")
     public RedirectView edit(HttpServletRequest request) {
@@ -26,13 +42,14 @@ public class UserController {
         UserEntity user = new UserEntity(
                 Integer.parseInt(request.getParameter("id")),
                 request.getParameter("fname"),
-                request.getParameter("group"),
-                Integer.parseInt(request.getParameter("age")),
-                request.getParameter("interest"),
+                (request.getParameter("group") == null) ? request.getParameter("prev_group") : request.getParameter("group"),
+                (request.getParameter("age") == null) ? null : Integer.parseInt(request.getParameter("age")),
+                (request.getParameter("interest") == null) ? request.getParameter("prev_interest") : request.getParameter("interest"),
                 Boolean.parseBoolean(request.getParameter("enabled")),
                 request.getParameter("email"),
                 //if no new password, then previous password will be not changed, else chnage to new password
-               (request.getParameter("password") == null) ? request.getParameter("prev_password") : passwordEncoder.encode (request.getParameter("password"))
+                (request.getParameter("password") == null) ? request.getParameter("prev_password") : passwordEncoder.encode(request.getParameter("password"))
+
         );
         userRepo.save(user);
 

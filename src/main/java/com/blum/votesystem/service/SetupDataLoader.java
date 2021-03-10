@@ -51,16 +51,23 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
-//        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-//        UserEntity user = new UserEntity();
-//        user.setUser_name("Test");
-//        user.setPassword(passwordEncoder.encode("test"));
-//        user.setEmail("test@test.com");
-//        user.setRoles(Arrays.asList(adminRole));
-//        user.setEnabled(true);
-//        userRepository.save(user);
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        UserEntity user = new UserEntity();
+        user.setUser_name("Test");
+        user.setPassword(passwordEncoder.encode("123"));
+        user.setEmail("test@test.com");
+        user.setRoles(Arrays.asList(adminRole));
+        user.setEnabled(true);
+        userRepository.save(user);
 
-
+        Role adminRole1 = roleRepository.findByName("ROLE_ADMIN");
+        UserEntity user1 = new UserEntity();
+        user1.setUser_name("Test");
+        user1.setPassword(passwordEncoder.encode("123"));
+        user1.setEmail("admin@test.com");
+        user1.setRoles(Arrays.asList(adminRole1));
+        user1.setEnabled(true);
+        userRepository.save(user1);
 
         alreadySetup = true;
     }

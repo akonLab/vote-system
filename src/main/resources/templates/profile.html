@@ -19,20 +19,20 @@
 <div class="header p-3 d-flex justify-content-around">
     <a href="/profile">profile</a>
     <a href="/home">home</a>
-    <a href="/admin">admin</a>
     <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
+        <input type="submit" class="btn btn-outline-light" value="Sign Out"/>
     </form>
 </div>
 
 <div class="box">
-    <h3 class="text-center">Profile page</h3>
+
     <div class="data">
         <div>
             <p th:text="${user.getUser_name()}"></p>
             <p th:text="${'Group: '+user.getUser_group()}"></p>
             <p th:text="${'Age: '+user.getUser_age()}"></p>
-            <a href="/profileEdit">change profile</a>
+            <a href="/profileEdit">change profile</a><br>
+            <a href="/admin" th:if="${authority==true}">add question</a>
         </div>
         <div th:if="${interests!=null}">
             <p>interests:</p>
@@ -42,17 +42,17 @@
         </div>
     </div>
 
-    <table>
-        <tr>
-            <th>question title</th>
-            <th>question chois</th>
-        </tr>
-        <tr>
-            <td>question title</td>
-            <td>question chois</td>
-        </tr>
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th>question title</th>-->
+<!--            <th>question chois</th>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>question title</td>-->
+<!--            <td>question chois</td>-->
+<!--        </tr>-->
 
-    </table>
+<!--    </table>-->
 </div>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

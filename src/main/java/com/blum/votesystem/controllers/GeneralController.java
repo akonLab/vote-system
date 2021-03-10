@@ -9,7 +9,6 @@ import com.blum.votesystem.service.QuestionServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,20 +23,22 @@ import java.util.List;
 @RequestMapping("/")
 public class GeneralController {
     @Autowired
-    MyUserDetailsService userDetailsService;
+    private MyUserDetailsService userDetailsService;
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
     @Autowired
-    QuestionRepo questionRepo;
+    private QuestionRepo questionRepo;
 
-    QuestionServer questionServer=new QuestionServer();
+    private final QuestionServer questionServer = new QuestionServer();
+
+    @ModelAttribute("authority")
+    public boolean authority() {
+        return getCurrentUser().getEmail().contains("admin");
+    }
 
     @RequestMapping("/home")
     public String home(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        UserEntity user = userRepo.findByEmail(email);
+        UserEntity user = getCurrentUser();
 
         model.addAttribute("userid", user.getUser_id());
         model.addAttribute("questionServer", questionServer);
@@ -53,10 +54,7 @@ public class GeneralController {
 
     @RequestMapping("/profile")
     public String profile(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        UserEntity user = userRepo.findByEmail(email);
+        UserEntity user = getCurrentUser();
 
         if (user.getUser_interest() != null) {
             model.addAttribute("interests", getInterestList(user.getUser_interest()));
@@ -75,10 +73,7 @@ public class GeneralController {
 
     @RequestMapping("/profileEdit")
     public String profileEdit(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        model.addAttribute("user", userRepo.findByEmail(email));
+        model.addAttribute("user", getCurrentUser());
 
         return "profileEdit";
     }
@@ -94,5 +89,11 @@ public class GeneralController {
     @RequestMapping("/log")
     public String log(HttpServletRequest request) {
         return "log";
+    }
+
+    public UserEntity getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepo.findByEmail(email);
     }
 }
